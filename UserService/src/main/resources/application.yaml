@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/microservices
     username: postgres
-    password: Hello@123
+    password: password
 
   jpa:
     show-sql: true
@@ -13,4 +13,4 @@ spring:
       ddl-auto: update
 
 server:
-  port: 8082
+  port: 8090
