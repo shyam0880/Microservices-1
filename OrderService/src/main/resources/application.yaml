@@ -13,7 +13,7 @@ spring:
       ddl-auto: update
 
 server:
-  port: 8080
+  port: 8082
 
 user-service:
-  base-url: http://localhost:8090
+  base-url: http://localhost:8081

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user-service-route
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/users/**
+            - id: order-service-route
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/orders/**
+
+server:
+  port: 8080
