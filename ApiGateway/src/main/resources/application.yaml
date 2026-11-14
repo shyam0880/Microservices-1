@@ -10,10 +10,40 @@ spring:
               uri: http://localhost:8081
               predicates:
                 - Path=/api/users/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceCB
+                    fallbackUri: forward:/fallback/user-service
+
             - id: order-service-route
               uri: http://localhost:8082
               predicates:
                 - Path=/api/orders/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: orderServiceCB
+                    fallbackUri: forward:/fallback/order-service
+
+            # Keep this LAST: routes are matched in order
+            - id: catch-all-fallback-route
+              uri: forward:/fallback/service-not-found
+              predicates:
+                - Path=/api/**
 
 server:
   port: 8080
+
+resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 10s
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
